@@ -1,0 +1,121 @@
+defscrollback 1000
+#deflogin off
+vbell off
+vbell_msg "beeeeep!"
+startup_message off
+verbose on
+defutf8 on
+
+# keep undead windows until closed
+zombie cr
+
+escape ^aa
+#escape ^\\
+
+#password
+
+nonblock on
+
+termcapinfo xterm*|*rxvt* 'hs:ts=\E]2;:fs=\007:ds=\E]2;screen\007'
+termcapinfo xterm*|*rxvt* ti@:te@
+
+hardstatus on
+hardstatus string "%H [%S:%-n] %t"
+
+caption always "%?%F%{-b kw}%:%{-b rr}%?%c|%H%?%F%{+u kw}%? %L=%-Lw%45>%{ ky}%n%f* %t%{-}%+Lw%-0<"
+#caption always "%?%F%{-b wb}%:%{-b rr}%?%c|%H%?%F%{+u wg}%? %L=%-Lw%45>%{ bg}%n%f* %t%{-}%+Lw%-0<"
+
+# Anything I don't describe is treated literally.
+#
+# %?          - Start of a conditional statement.
+#  %F         - Use this part of the statement if the window has focus (i.e. it
+#               is the only window or the currently active one).
+#  %{-b bc}   - Turn off bold, blue foreground, cyan background.
+# %:          - else
+#  %{-b bb}   - Turn off bold, blue foreground, blue background (this obscures
+#               the text on non-focused windows and just gives a blue line).
+# %?          - End conditional statement.
+#  %C         - time (hh:mm, leading space) in 12 hour format
+#  %c         - time (hh:mm, leading space) in 24 hour format
+#  %D         - Three-letter day-of-week appreviation
+#  %M         - Three-letter month appreviation
+#  %d         - Day of the month
+#  %H         - hostname
+#  %?         - Start of conditional statement.
+#   %F        - Use this part of the statement if the window has focus.
+#   %{+u wb}  - underlined, white foreground, blue background
+#  %?         - End conditional (if not focused, text remaind blue on blue).
+#    %L=      - truncation/padding point.  With the 'L' qualifier, basically
+#               just acts as a reference point.  Further truncation/padding is
+#               done relative to here, not the beginning of the string
+#    %-Lw     - window list up to but not including the current window (-),
+#               show window flags (L)
+#    %45>     - truncation/padding marker; place this point about 45% of the
+#               way into the display area (45)
+#    %{+b by} - add bold (still underlined from before), blue foreground,
+#               yellow background
+#      %n     - number of the current window
+#      %f     - flags for current window
+#      %t     - title of current window
+#    %{-}     - undo last color change (so now we're back to underlined white
+#               on blue)  (technically, this is a pop; a second invocation
+#               would drop things back to unadorned blue on cyan)
+#    %+Lw     - window list from the next window on (-), show window flags (L)
+#    %-0<     - truncation/padding point.  Place this point zero spaces (0)
+#               from the right margin (-).
+
+# window flags (from screen man page)
+# Uses  the  message  line to display a list of all the windows.  Each window
+# is listed by number with the name of process that has been started in the
+# window (or its title);
+# the current window is marked with a `*';
+# the previous  window  is  marked with a `-'
+# all the windows that are "logged in" are marked with a `$';
+# a background window that  has  received  a  bell is marked with a `!';
+# a background window that is being monitored and has had activity
+#      occur  is  marked  with  an `@';
+# a window which has output logging turned on is marked with `(L)';
+# windows  occupied by  other users are marked with `&';
+# windows in the zombie state are marked with `Z'.
+# If this list is  too  long  to fit on the terminal's status line only
+# the portion around the current window is displayed.
+
+
+# XTERM TWEAKS
+# ===============================================================
+
+# xterm understands both im/ic and doesn't have a status line.
+# Note: Do not specify im and ic in the real termcap/info file as
+# some programs (e.g. vi) will not work anymore.
+#  termcap  xterm hs@:cs=\E[%i%d;%dr:im=\E[4h:ei=\E[4l
+#  terminfo xterm hs@:cs=\E[%i%p1%d;%p2%dr:im=\E[4h:ei=\E[4l
+
+# Use the function keys to switch among windows.
+bindkey -k k1 select 1
+bindkey -k k2 select 2
+bindkey -k k3 select 3
+bindkey -k k4 select 4
+bindkey -k k5 select 5
+bindkey -k k6 select 6
+bindkey -k k7 select 7
+bindkey -k k8 select 8
+bindkey -k k9 select 9
+bindkey -k k0 select 10
+bindkey -k F1 select 11
+bindkey -k F2 select 12
+# windows 13-24 are Shift-Fn.  May not work in all terminals.
+#bindkey -k F3 select 13
+#bindkey -k F4 select 14
+#bindkey -k F5 select 15
+#bindkey -k F6 select 16
+#bindkey -k F7 select 17
+#bindkey -k F8 select 18
+#bindkey -k F9 select 19
+#bindkey -k FA select 20
+
+# Window numbering starts at 1, not 0.
+#bind c screen 1
+#bind 0 select 10
+
+bind '#' caption splitonly
+bind '~' caption always
