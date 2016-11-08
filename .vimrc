@@ -5,7 +5,7 @@ call pathogen#infect()
 call pathogen#helptags()
 
 syntax on
-colorscheme nofrils-light
+colorscheme murphy
 let &t_Co=256
 
 set number
@@ -37,6 +37,7 @@ let g:maplocalleader = ","
 
 filetype plugin indent on
 let g:airline_theme='powerlineish'
+let g:airline_powerline_fonts = 1
 " show list of buffers 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
